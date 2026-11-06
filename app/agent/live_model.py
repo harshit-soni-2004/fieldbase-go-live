@@ -8,3 +8,4 @@ class LiveModel:
 
     def next_action(self) -> dict[str, Any]:
         raise NotImplementedError("LiveModel will be implemented in Prompt 5")
+

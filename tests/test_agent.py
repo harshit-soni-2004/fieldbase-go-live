@@ -120,3 +120,4 @@ def test_agent_package_has_no_db_import():
                         assert not node.module.startswith(forbidden), (
                             f"{py_file} imports from forbidden module '{node.module}'"
                         )
+

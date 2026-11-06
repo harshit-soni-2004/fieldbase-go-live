@@ -75,3 +75,4 @@ class FakeModel:
                 return {"stop": True, "final_text": ""}
 
         return {"stop": True, "final_text": ""}
+

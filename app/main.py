@@ -1,6 +1,9 @@
 from contextlib import asynccontextmanager
+from pathlib import Path
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from app.api.audit import AuditMiddleware
 from app.api.auth import validate_environment_security
@@ -40,6 +43,17 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
         detail=str(exc.detail),
     )
 
+STATIC_DIR = Path(__file__).parent.parent / "static"
+INDEX_PATH = STATIC_DIR / "index.html"
+
+@app.get("/", response_class=FileResponse)
+async def get_index():
+    return FileResponse(str(INDEX_PATH))
+
+if STATIC_DIR.exists():
+    app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
+
 app.include_router(contracts_router)
 app.include_router(tenants_router)
 app.include_router(demo_router)
+
