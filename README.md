@@ -76,7 +76,20 @@ flowchart LR
 - [x] **Prompt 2 (Admin API - Tenants & Go-live)**: Tenants, modules, invites, tasks, derived checklist, audit logging, and go-live routes.
 - [x] **Prompt 3 (Scripted Agent)**: Agent loop, HTTP tools, fake model scripts, and scenario execution.
 - [x] **Prompt 4 (Operator UI)**: Checklist page and demo routes.
-- [ ] **Prompt 5 (Live Model Adapter)**: OpenAI-compatible LLM provider adapter.
+- [x] **Prompt 5 (Live Model Adapter)**: OpenAI-compatible LLM provider adapter.
+
+---
+
+## Execution & Modes
+
+Fake is the default mode. Deterministic fake model scripts test the real API in CI without requiring API keys or network access.
+
+Live mode connects to an OpenAI-compatible completion endpoint and requires the following three environment variables:
+- `LLM_BASE_URL`
+- `LLM_API_KEY`
+- `LLM_MODEL`
+
+Live result: not run yet.
 
 ---
 

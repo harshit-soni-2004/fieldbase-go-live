@@ -48,6 +48,7 @@ class RunRecorder(Protocol):
         run_id: str,
         stopped_reason: str,
         final_text: str,
+        token_usage: Optional[int] = None,
     ) -> None:
         ...
 
@@ -140,10 +141,12 @@ def run_agent_loop(
         http_client.close()
         # 6. Finalize run
         if recorder:
+            token_usage = getattr(model, "total_tokens", None)
             recorder.on_run_finish(
                 run_id=run_id,
                 stopped_reason=stopped_reason,
                 final_text=final_text,
+                token_usage=token_usage,
             )
 
     return AgentRunResult(

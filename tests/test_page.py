@@ -34,3 +34,4 @@ def test_demo_run_json_matches_northwind(live_client: httpx.Client):
     assert checklist["sso"]["state"] == "blocking"
     assert checklist["sso"]["ok"] is False
     assert checklist["live"]["ok"] is False
+

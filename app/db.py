@@ -83,6 +83,7 @@ CREATE TABLE IF NOT EXISTS runs (
     idempotency_key TEXT NOT NULL,
     stopped_reason TEXT NULL,
     final_text TEXT NULL,
+    token_usage INTEGER NULL,
     created_at TEXT NOT NULL
 );
 

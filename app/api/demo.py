@@ -6,6 +6,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 import httpx
 from app.agent.fake_model import FakeModel
+from app.agent.live_model import LiveModel
 from app.agent.loop import AgentRunResult, run_agent_loop
 from app.api.auth import get_env_tokens
 from app.api.contracts import fetch_contract, validate_contract_payload
@@ -105,11 +106,12 @@ class DatabaseRunRecorder:
         run_id: str,
         stopped_reason: str,
         final_text: str,
+        token_usage: Optional[int] = None,
     ) -> None:
         with get_connection() as conn:
             conn.execute(
-                "UPDATE runs SET stopped_reason = ?, final_text = ? WHERE id = ?",
-                (stopped_reason, final_text, run_id),
+                "UPDATE runs SET stopped_reason = ?, final_text = ?, token_usage = ? WHERE id = ?",
+                (stopped_reason, final_text, token_usage, run_id),
             )
             conn.commit()
 
@@ -140,18 +142,16 @@ async def run_demo(request: Request):
     mode = body["mode"]
 
     if mode == "live":
-        base_url = os.environ.get("LLM_BASE_URL")
-        api_key = os.environ.get("LLM_API_KEY")
-        model_name = os.environ.get("LLM_MODEL")
-        if not base_url or not api_key or not model_name:
+        llm_base_url = os.environ.get("LLM_BASE_URL")
+        llm_api_key = os.environ.get("LLM_API_KEY")
+        llm_model_name = os.environ.get("LLM_MODEL")
+        if not llm_base_url or not llm_api_key or not llm_model_name:
             raise ProblemException(
                 status=400,
                 code="LIVE_MODEL_NOT_CONFIGURED",
                 title="Live model not configured",
                 detail="Live mode requires LLM_BASE_URL, LLM_API_KEY, and LLM_MODEL",
             )
-        raise NotImplementedError("Live mode is not configured yet")
-
     elif mode != "fake":
         raise ProblemException(
             status=422,
@@ -189,7 +189,19 @@ async def run_demo(request: Request):
     base_url = str(request.base_url).rstrip("/")
     _, agent_token, _ = get_env_tokens()
 
-    fake_model = FakeModel(scenario=scenario_name, contract_id=scenario_config["contractId"])
+    if mode == "fake":
+        model_instance = FakeModel(scenario=scenario_name, contract_id=scenario_config["contractId"])
+    else:
+        model_instance = LiveModel(
+            base_url=llm_base_url,
+            api_key=llm_api_key,
+            model=llm_model_name,
+            scenario=scenario_name,
+            contract_id=scenario_config["contractId"],
+            idempotency_key=scenario_config["idempotencyKey"],
+            scenario_message=scenario_config["message"],
+        )
+
     recorder = DatabaseRunRecorder()
 
     import asyncio
@@ -201,9 +213,10 @@ async def run_demo(request: Request):
         mode=mode,
         base_url=base_url,
         agent_token=agent_token,
-        model=fake_model,
+        model=model_instance,
         recorder=recorder,
     )
+
 
 
     # Fetch final tenant
