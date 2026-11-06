@@ -13,3 +13,4 @@ def check_seat_cap(seats: int, current_invite_count: int, is_already_invited: bo
             title="Seat cap reached",
             detail=f"Cannot invite more admins: seat cap of {seats} reached",
         )
+

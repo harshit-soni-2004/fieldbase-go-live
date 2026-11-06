@@ -693,3 +693,4 @@ async def go_live(
 
     tenant_full = get_tenant_full(tenantId)
     return JSONResponse(status_code=200, content=tenant_full)
+
