@@ -1,0 +1,12 @@
+{
+  "contractId": "ctr_fabrik",
+  "customerName": "Fabrik",
+  "seats": 5,
+  "modules": ["projects", "time"],
+  "region": "eu-west-1",
+  "admins": [
+    {"name": "Lena Ortiz", "email": "lena@fabrik.example"}
+  ],
+  "ssoRequired": false,
+  "ssoMetadataPresent": false
+}

@@ -1,0 +1,13 @@
+{
+  "contractId": "ctr_northwind",
+  "customerName": "Northwind",
+  "seats": 25,
+  "modules": ["projects", "time"],
+  "region": "ap-south-1",
+  "admins": [
+    {"name": "Asha Rao", "email": "asha@northwind.example"},
+    {"name": "Dev Patel", "email": "dev@northwind.example"}
+  ],
+  "ssoRequired": true,
+  "ssoMetadataPresent": false
+}

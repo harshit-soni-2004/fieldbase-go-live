@@ -1,0 +1,12 @@
+{
+  "contractId": "ctr_contoso",
+  "customerName": "Contoso",
+  "seats": 10,
+  "modules": ["projects"],
+  "region": "us-east-1",
+  "admins": [
+    {"name": "Mia Chen", "email": "mia@contoso.example"}
+  ],
+  "ssoRequired": false,
+  "ssoMetadataPresent": false
+}

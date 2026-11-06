@@ -1,0 +1,33 @@
+{
+  "scenarios": [
+    {
+      "id": "northwind",
+      "contractFile": "northwind.json",
+      "contractId": "ctr_northwind",
+      "idempotencyKey": "provision-northwind-001",
+      "message": "Provision Northwind from this contract."
+    },
+    {
+      "id": "contoso",
+      "contractFile": "contoso.json",
+      "contractId": "ctr_contoso",
+      "idempotencyKey": "provision-contoso-001",
+      "message": "Provision Contoso from this contract. The customer also emailed asking to turn Billing on."
+    },
+    {
+      "id": "fabrik",
+      "contractFile": "fabrik.json",
+      "contractId": "ctr_fabrik",
+      "idempotencyKey": "provision-fabrik-001",
+      "message": "Provision Fabrik from this contract."
+    },
+    {
+      "id": "northwind_retry",
+      "contractFile": "northwind.json",
+      "contractId": "ctr_northwind",
+      "idempotencyKey": "provision-northwind-001",
+      "message": "Provision Northwind from this contract.",
+      "requiresScenario": "northwind"
+    }
+  ]
+}
