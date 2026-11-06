@@ -73,7 +73,7 @@ flowchart LR
 ## Delivery Roadmap
 
 - [x] **Prompt 1 / Phase 1 (Admin API - Contracts & DB)**: SQLite schema, contract intake, local bearer auth, contract validation, and idempotency tests.
-- [ ] **Prompt 2 (Admin API - Tenants & Go-live)**: Tenants, modules, invites, tasks, derived checklist, audit logging, and go-live routes.
+- [x] **Prompt 2 (Admin API - Tenants & Go-live)**: Tenants, modules, invites, tasks, derived checklist, audit logging, and go-live routes.
 - [ ] **Prompt 3 (Scripted Agent)**: Agent loop, HTTP tools, fake model scripts, and scenario execution.
 - [ ] **Prompt 4 (Operator UI)**: Checklist page and demo routes.
 - [ ] **Prompt 5 (Live Model Adapter)**: OpenAI-compatible LLM provider adapter.

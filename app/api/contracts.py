@@ -353,3 +353,4 @@ async def get_contract(contractId: str, actor: str = Depends(get_current_actor))
             detail=f"Contract '{contractId}' does not exist",
         )
     return JSONResponse(status_code=200, content=stored)
+

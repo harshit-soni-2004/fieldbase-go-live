@@ -69,3 +69,4 @@ class RoleChecker:
                 detail="Action not permitted for current role",
             )
         return actor
+

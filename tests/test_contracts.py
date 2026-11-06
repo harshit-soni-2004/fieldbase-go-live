@@ -135,3 +135,4 @@ def test_auth_required(client: TestClient):
     )
     assert resp_bad.status_code == 401
     assert resp_bad.json()["code"] == "UNAUTHORIZED"
+

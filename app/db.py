@@ -133,3 +133,4 @@ def init_db(db_path: Optional[str] = None) -> None:
         Path(path).parent.mkdir(parents=True, exist_ok=True)
     with get_connection(path) as conn:
         conn.executescript(SCHEMA_SQL)
+
