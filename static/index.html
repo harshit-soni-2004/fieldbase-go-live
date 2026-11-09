@@ -311,14 +311,36 @@
         const replayedBadge = step.replayed ? ' <span class="replayed-badge">Replayed</span>' : '';
         const codeDisplay = step.errorCode ? escapeHtml(step.errorCode) : 'ok';
 
+        tr.style.cursor = 'pointer';
+        tr.title = 'Click to toggle step arguments';
         tr.innerHTML = `
           <td>${step.stepIndex}</td>
           <td>${escapeHtml(step.toolName)}${replayedBadge}</td>
           <td>${step.httpStatus}</td>
           <td>${codeDisplay}</td>
         `;
+
+        tr.onclick = () => {
+          const detailId = `step-detail-${step.stepIndex}`;
+          let detailRow = document.getElementById(detailId);
+          if (detailRow) {
+            detailRow.style.display = detailRow.style.display === 'none' ? 'table-row' : 'none';
+          } else {
+            detailRow = document.createElement('tr');
+            detailRow.id = detailId;
+            const argsStr = JSON.stringify(step.arguments || {}, null, 2);
+            detailRow.innerHTML = `
+              <td colspan="4" style="background: #fafafa; padding: 8px 12px; font-family: monospace; font-size: 12px; border: 1px solid #ddd;">
+                <strong>Arguments:</strong> <pre style="margin: 4px 0 0 0; white-space: pre-wrap;">${escapeHtml(argsStr)}</pre>
+              </td>
+            `;
+            tr.after(detailRow);
+          }
+        };
+
         tbody.appendChild(tr);
       });
+
     }
 
     function renderChecklist(tenant, finalText) {
