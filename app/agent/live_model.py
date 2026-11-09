@@ -163,11 +163,19 @@ class LiveModel:
         self.current_call_id = None
 
     def next_action(self) -> dict[str, Any]:
-        url = f"{self.base_url}/v1/chat/completions"
+        base = self.base_url.rstrip("/")
+        if base.endswith("/chat/completions"):
+            url = base
+        elif base.endswith("/v1"):
+            url = f"{base}/chat/completions"
+        else:
+            url = f"{base}/v1/chat/completions"
+
         headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json",
         }
+
         payload = {
             "model": self.model,
             "temperature": 0,
