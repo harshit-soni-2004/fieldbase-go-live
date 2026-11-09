@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=local
+      - DATABASE_PATH=/app/data/go-live.db
+      # For live model evaluation (optional)
+      # - LLM_BASE_URL=${LLM_BASE_URL}
+      # - LLM_API_KEY=${LLM_API_KEY}
+      # - LLM_MODEL=${LLM_MODEL}
+    volumes:
+      - go-live-data:/app/data
+
+volumes:
+  go-live-data:
