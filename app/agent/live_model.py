@@ -166,7 +166,7 @@ class LiveModel:
         base = self.base_url.rstrip("/")
         if base.endswith("/chat/completions"):
             url = base
-        elif base.endswith("/v1"):
+        elif base.endswith("/v1") or base.endswith("/openai"):
             url = f"{base}/chat/completions"
         else:
             url = f"{base}/v1/chat/completions"
