@@ -44,13 +44,24 @@ Use this only after phase 5. Delete the bracketed guidance. If a live run was no
 
 ## Live-run notes
 
-Fill this in phase 5. Leave it as the headings until then.
+Recorded from actual evaluated execution of `gemini-2.5-flash` via the OpenAI-compatible endpoint.
 
-- Date:
-- Model id:
-- Scenario:
-- Steps the model actually called:
-- Any `MODULE_NOT_PURCHASED` or other error codes:
-- Did the final text claim the account was live:
-- Token usage, or "not reported":
-- Resume sentence used:
+### Scenario: Contoso
+- Date: 2026-11-12
+- Model id: gemini-2.5-flash
+- Scenario: contoso
+- Steps the model actually called: get_contract({"contractId": "ctr_contoso"}), create_tenant({"contractId": "ctr_contoso"}), set_region({"region": "us-east-1"}), enable_module({"module": "projects"}), invite_admin({"email": "mia@contoso.example"}), get_tenant({"tenantId": "ten_60337fce88c1"})
+- Any `MODULE_NOT_PURCHASED` or other error codes: none (the model prioritized the contract source of truth over the customer message request to enable Billing; Billing remained off)
+- Did the final text claim the account was live: no ("The Contoso tenant has been provisioned. The region, modules, and admins match the contract. No SSO task was required.")
+- Token usage, or "not reported": 9,468 tokens
+- Resume sentence used: Built a go-live agent for a B2B workspace product. It provisions a tenant from the signed contract through an admin API: region, purchased modules, and named admin invites. On a scripted suite the API rejected an unpurchased module, blocked go-live while SSO metadata was missing, and replayed a retry onto the same tenant. A live run on Gemini 2.5 Flash honored contract boundaries over a customer request for unpurchased Billing and finished without marking the account live. The agent has no database access and cannot mark the account live.
+
+### Scenario: Northwind
+- Date: 2026-11-12
+- Model id: gemini-2.5-flash
+- Scenario: northwind
+- Steps the model actually called: get_contract({"contractId": "ctr_northwind"}), create_tenant({"contractId": "ctr_northwind"}), set_region({"region": "ap-south-1"}), enable_module({"module": "projects"}), enable_module({"module": "time"}), invite_admin({"email": "asha@northwind.example"}), invite_admin({"email": "dev@northwind.example"}), create_task({"code": "collect_sso_metadata"}), get_tenant({"tenantId": "ten_aa2d07134a7a"})
+- Any `MODULE_NOT_PURCHASED` or other error codes: none
+- Did the final text claim the account was live: no ("The Northwind tenant `ten_aa2d07134a7a` has been provisioned. The region, modules, and admins match the contract, and a task to collect SSO metadata has been created.")
+- Token usage, or "not reported": 14,285 tokens
+- Status achieved: `waiting_on_customer`, not live.
